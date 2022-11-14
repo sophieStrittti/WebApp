@@ -42,3 +42,29 @@ jobs:
           with:
             push: true
             tags: strittso/gruppea:test
+            
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    needs: docker
+
+    steps:
+      - name: Deploy to Server via SSH action
+        uses: appleboy/ssh-action@master
+        with:
+          host: 78.46.240.102
+          username: root
+          password: ${{ secrets.HOST_PASSWORD }}
+          script: |
+            # Stop all running Docker Containers
+            docker kill $(docker ps -q)
+
+            # Free up space
+            docker system prune -a
+
+            # Pull the Docker Image 
+            docker pull stittso/gruppea:test
+
+            # Run a new container from a new image
+            docker run -d -p 80:80 strittso/gruppea:test
+
