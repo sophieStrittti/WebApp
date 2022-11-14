@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>This is the title of the webpage!</title>
+</head>
+
+
+<body>
+  <p style="color:blue;">Hello World</p>
+
+  <textarea id="w3review" name="w3review" rows="4" cols="50">
+  Test ist ein Text
+  </textarea>
+
+  <button type="button" id="button1">Click Me!</button>
+  <div id=texte>
+
+  </div>
+</body>
+
+<script>
+
+  //function onload
+  window.onload = function () {
+    fetch('http://78.46.240.102/test', { method: 'POST' })
+      .then(response => response.text())
+      .then((response) => {
+        console.log(response)
+        splitdaten = response.split("/n");
+        
+        for (i = 0; i < splitdaten.length; i++) {
+        var textfeld = document.getElementById("texte");
+        var newDiv = document.createElement("p");
+        newDiv.innerHTML = splitdaten[i];
+        textfeld.appendChild(newDiv);
+        }
+      })
+  }
+
+  const button = document.getElementById("button1");
+
+  button.onclick = function (e) { 
+    var data = document.getElementById("w3review").value;
+    fetch('http://78.46.240.102/', {
+      method: 'POST',
+      body: data // The data
+    });
+    var textfeld = document.getElementById("texte");
+    var newDiv = document.createElement("p");
+    newDiv.innerHTML = data;
+    textfeld.appendChild(newDiv);
+  }
+</script>
+
+</html>
