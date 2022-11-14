@@ -2,7 +2,7 @@ var sqlite3 = require('sqlite3').verbose();
 //get the current time
 var date = new Date().toString();
 var testbestanden = false;
-var db = new sqlite3.Database('../database/texte.db');
+var db = new sqlite3.Database('./database/texte.db');
 db.run('CREATE TABLE IF NOT EXISTS einträge(text TEXT)');
 
 db.serialize(() => {
